@@ -1,0 +1,51 @@
+import { CardProps } from '../components/card/card.types';
+
+export const TMP_CARDS: CardProps[] = [
+  {
+    mark: 'Premium',
+    image: 'img/apartment-01.jpg',
+    price: 120,
+    priceText: 'night',
+    bookmarked: false,
+    rating: 80,
+    description: 'Beautiful & luxurious apartment at great location',
+    type: 'Apartment',
+  },
+  {
+    image: 'img/room.jpg',
+    price: 80,
+    priceText: 'night',
+    bookmarked: true,
+    rating: 80,
+    description: 'Wood and stone place',
+    type: 'Room',
+  },
+  {
+    image: 'img/apartment-02.jpg',
+    price: 132,
+    priceText: 'night',
+    bookmarked: false,
+    rating: 80,
+    description: 'Canal View Prinsengracht',
+    type: 'Apartment',
+  },
+  {
+    mark: 'Premium',
+    image: 'img/apartment-03.jpg',
+    price: 180,
+    priceText: 'night',
+    bookmarked: false,
+    rating: 100,
+    description: 'Nice, cozy, warm big bed apartment',
+    type: 'Apartment',
+  },
+  {
+    image: 'img/room.jpg',
+    price: 80,
+    priceText: 'night',
+    bookmarked: true,
+    rating: 80,
+    description: 'Wood and stone place',
+    type: 'Room',
+  },
+];
