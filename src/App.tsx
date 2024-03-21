@@ -1,4 +1,9 @@
 import { FC } from 'react';
-import { MainPage } from './pages/main/main.page';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { routes } from './routes';
 
-export const App: FC = () => <MainPage activeOffers={100} />;
+export const App: FC = () => {
+  const router = createBrowserRouter(routes);
+
+  return <RouterProvider router={router} />;
+};
