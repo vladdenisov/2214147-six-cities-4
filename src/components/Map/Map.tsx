@@ -4,12 +4,7 @@ import useMap from '../../hooks/useMap';
 
 import 'leaflet/dist/leaflet.css';
 import { City, Point } from '../../types';
-
-const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
-
-const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 
 interface MapProps {
   city: City;
