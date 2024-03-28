@@ -8,3 +8,8 @@ export const RATING_TITLES = [
   'good',
   'perfect',
 ];
+
+export interface Comment {
+  rating: number;
+  review: string;
+}

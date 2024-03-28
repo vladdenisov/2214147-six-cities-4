@@ -4,14 +4,9 @@ import {
   MAX_RATING,
   MAX_REVIEW_LENGTH,
   RATING_TITLES,
-} from '../../types/Review';
-
-interface Comment {
-  rating: number;
-  review: string;
-}
-
-const MIN_REVIEW_LENGTH = 50;
+  MIN_REVIEW_LENGTH,
+  Comment,
+} from '../../types/Comment';
 
 export const SendCommentForm: FC = () => {
   const [comment, setComment] = useState<Comment>({
