@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { Offer } from '../../types/Offer';
+import { Offer } from '../../types';
 import { Rating } from '../Rating/Rating';
 
 export interface CardProps extends Offer {

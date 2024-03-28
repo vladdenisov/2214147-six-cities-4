@@ -1,12 +1,12 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { RatingForm } from '../RatingForm/RatingForm';
+import { Comment } from '../../types';
 import {
   MAX_RATING,
-  MAX_REVIEW_LENGTH,
-  RATING_TITLES,
   MIN_REVIEW_LENGTH,
-  Comment,
-} from '../../types/Comment';
+  RATING_TITLES,
+  MAX_REVIEW_LENGTH,
+} from '../../const';
 
 export const SendCommentForm: FC = () => {
   const [comment, setComment] = useState<Comment>({
