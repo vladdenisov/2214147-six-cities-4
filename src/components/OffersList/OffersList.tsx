@@ -1,21 +1,41 @@
-import { FC, useState } from 'react';
-import { Offer } from '../../types/Offer';
+import { FC, useMemo, useState } from 'react';
 import { Card } from '../Card/Card';
+import { City, Point, Offer } from '../../types';
+import { DEFAULT_CITY } from '../../const';
+import { Map } from '../Map/Map';
 
 interface OffersListProps {
   offers: Offer[];
 }
 
 export const OffersList: FC<OffersListProps> = ({ offers }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setActiveCardId] = useState<string | null>(null);
+  const [activePoint, setActivePoint] = useState<Point>();
+  const [activeCity, setActiveCity] = useState<City>(DEFAULT_CITY);
+
+  const points = useMemo<Point[]>(
+    () =>
+      offers.map((offer) => ({
+        id: offer.id,
+        latitude: offer.location.latitude,
+        longitude: offer.location.longitude,
+        zoom: offer.location.zoom,
+      })),
+    [offers]
+  );
 
   const handleCardMouseEnter = (id: string) => {
-    setActiveCardId(id);
+    const point = points.find((p) => p.id === id);
+    const city = offers.find((offer) => offer.id === id)?.city;
+    if (city) {
+      setActiveCity(city);
+    }
+    if (point) {
+      setActivePoint(point);
+    }
   };
 
   const handleCardMouseLeave = () => {
-    setActiveCardId(null);
+    setActivePoint(undefined);
   };
 
   return (
@@ -60,7 +80,7 @@ export const OffersList: FC<OffersListProps> = ({ offers }) => {
         </div>
       </section>
       <div className="cities__right-section">
-        <section className="cities__map map"></section>
+        <Map city={activeCity} points={points} selectedPoint={activePoint} />
       </div>
     </div>
   );

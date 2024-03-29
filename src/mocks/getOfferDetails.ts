@@ -1,4 +1,4 @@
-import { OfferDetails } from '../types/Offer';
+import { OfferDetails } from '../types';
 import { TMP_OFFERS_WITH_DETAILS } from './offers';
 
 export const getOfferDetails = (id: string): OfferDetails | undefined =>

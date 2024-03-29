@@ -3,3 +3,8 @@ export interface ILocation {
   longitude: number;
   zoom: number;
 }
+
+export interface City {
+  name: string;
+  location: ILocation;
+}
