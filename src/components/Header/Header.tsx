@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { IS_AUTHENTICATED, TMP_USER } from '../../mocks/user';
+import { ROUTE_PATHS } from '../../const';
 
 export const Header: FC = () => (
   <header className="header">
     <div className="container">
       <div className="header__wrapper">
         <div className="header__left">
-          <Link className="header__logo-link" to="/">
+          <Link className="header__logo-link" to={ROUTE_PATHS.MAIN}>
             <img
               className="header__logo"
               src="img/logo.svg"
@@ -24,7 +25,7 @@ export const Header: FC = () => (
                 <li className="header__nav-item user">
                   <Link
                     className="header__nav-link header__nav-link--profile"
-                    to={'/favorites'}
+                    to={ROUTE_PATHS.FAVORITES}
                   >
                     <div
                       className="header__avatar-wrapper user__avatar-wrapper"
@@ -48,7 +49,7 @@ export const Header: FC = () => (
             ) : (
               <Link
                 className="header__nav-link header__nav-link--profile"
-                to="/login"
+                to={ROUTE_PATHS.LOGIN}
               >
                 <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                 <span className="header__login">Sign in</span>

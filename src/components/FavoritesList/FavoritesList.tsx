@@ -18,20 +18,20 @@ export const FavoritesList: FC<FavoritesListProps> = ({ offers }) => {
           (offer) => offer.city.name === place
         );
         return (
-          <>
-            <li className="favorites__locations-items">
-              <div className="favorites__locations locations locations--current">
-                <div className="locations__item">
-                  <a className="locations__item-link" href="#">
-                    <span>{place}</span>
-                  </a>
-                </div>
+          <li className="favorites__locations-items" key={place}>
+            <div className="favorites__locations locations locations--current">
+              <div className="locations__item">
+                <a className="locations__item-link" href="#">
+                  <span>{place}</span>
+                </a>
               </div>
-            </li>
-            {filteredOffers.map((offer) => (
-              <Card key={offer.id} {...offer} isFavoritesCard />
-            ))}
-          </>
+            </div>
+            <div className="favorites__places">
+              {filteredOffers.map((offer) => (
+                <Card key={offer.id} {...offer} prefix={'favorites'} />
+              ))}
+            </div>
+          </li>
         );
       })}
     </div>

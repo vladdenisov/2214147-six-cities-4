@@ -2,24 +2,23 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types';
 import { Rating } from '../Rating/Rating';
+import { ROUTE_PATHS } from '../../const';
+import { getCardClassName } from '../../utils/cardClassName';
 
 export interface CardProps extends Offer {
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
-  isFavoritesCard?: boolean;
+  prefix?: string;
 }
-
-const getCardClassName = (isFavoritesCard?: boolean, className?: string) =>
-  `${isFavoritesCard ? 'favorites' : 'cities'}__${className}`;
 
 export const Card: FC<CardProps> = ({
   onMouseEnter,
   onMouseLeave,
-  isFavoritesCard,
+  prefix,
   ...offer
 }) => (
   <article
-    className={`${getCardClassName(isFavoritesCard, 'card')} place-card`}
+    className={`${getCardClassName(prefix, 'card')} place-card`}
     onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
   >
@@ -30,11 +29,11 @@ export const Card: FC<CardProps> = ({
     )}
     <div
       className={`${getCardClassName(
-        isFavoritesCard,
+        prefix,
         'image-wrapper'
       )} place-card__image-wrapper`}
     >
-      <Link to={`/offer/${offer.id}`}>
+      <Link to={`${ROUTE_PATHS.OFFER}/${offer.id}`}>
         <img
           className="place-card__image"
           src={offer.previewImage}
@@ -71,7 +70,7 @@ export const Card: FC<CardProps> = ({
         </div>
       </div>
       <h2 className="place-card__name">
-        <Link to={`/offer/${offer.id}`}>{offer.title}</Link>
+        <Link to={`${ROUTE_PATHS.OFFER}/${offer.id}`}>{offer.title}</Link>
       </h2>
       <p className="place-card__type">{offer.type}</p>
     </div>

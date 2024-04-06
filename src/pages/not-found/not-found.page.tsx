@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { ROUTE_PATHS } from '../../const';
 
 export const NotFountPage: FC = () => (
   <div
@@ -29,7 +30,7 @@ export const NotFountPage: FC = () => (
         Упс, такой страницы не существует
       </h1>
       <Link
-        to="/"
+        to={ROUTE_PATHS.MAIN}
         style={{
           fontSize: '20px',
           margin: 'auto',
