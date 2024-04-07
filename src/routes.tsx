@@ -7,10 +7,11 @@ import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import { NotFountPage } from './pages/not-found/not-found.page';
 import { TMP_OFFERS } from './mocks/offers';
 import { MainLayout } from './layouts/MainLayout';
+import { ROUTE_PATHS } from './const';
 
 export const routes: RouteObject[] = [
   {
-    path: '/',
+    path: ROUTE_PATHS.MAIN,
     element: (
       <MainLayout color="gray">
         <MainPage offers={TMP_OFFERS} />,
@@ -18,11 +19,11 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: '/login',
+    path: ROUTE_PATHS.LOGIN,
     element: <LoginPage />,
   },
   {
-    path: '/favorites',
+    path: ROUTE_PATHS.FAVORITES,
     element: (
       <PrivateRoute>
         <MainLayout>
@@ -32,7 +33,7 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: '/offer/:id',
+    path: `${ROUTE_PATHS.OFFER}/:id`,
     element: (
       <MainLayout>
         <OfferPage />
