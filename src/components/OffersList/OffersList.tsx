@@ -1,24 +1,30 @@
 import { FC } from 'react';
 import { Card } from '../Card/Card';
-import { City, Point, Offer } from '../../types';
+import { Point, Offer } from '../../types';
 import classNames from 'classnames';
 import { getCardClassName } from '../../utils/cardClassName';
+import { useAppDispatch, useAppSelector } from '../../store/helpers';
+import { changeCity } from '../../store/action';
+import { selectCurrentCity } from '../../store/selectors';
 
 interface OffersListProps {
   offers: Offer[];
-  setActiveCity?: (city: City) => void;
   setActivePoint: (point?: Point) => void;
   points: Point[];
   prefix?: string;
 }
 
-export const OffersList: FC<OffersListProps> = ({ offers, setActiveCity, setActivePoint, points, prefix = 'cities' }) => {
+export const OffersList: FC<OffersListProps> = ({ offers, setActivePoint, points, prefix = 'cities' }) => {
+
+  const dispatch = useAppDispatch();
+
+  const activeCity = useAppSelector(selectCurrentCity);
 
   const handleCardMouseEnter = (id: string) => {
     const point = points.find((p) => p.id === id);
     const city = offers.find((offer) => offer.id === id)?.city;
     if (city) {
-      setActiveCity?.(city);
+      dispatch(changeCity(city));
     }
     if (point) {
       setActivePoint(point);
@@ -33,7 +39,7 @@ export const OffersList: FC<OffersListProps> = ({ offers, setActiveCity, setActi
     <section className={classNames(getCardClassName(prefix, 'places'), 'places')}>
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">
-        {offers?.length ?? 0} places to stay in Amsterdam
+        {offers?.length ?? 0} places to stay in {activeCity.name}
       </b>
       <form className="places__sorting" action="#" method="get">
         <span className="places__sorting-caption">Sort by</span>
