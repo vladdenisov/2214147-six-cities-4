@@ -1,16 +1,18 @@
 import { FC, useMemo, useState } from 'react';
-import { City, Offer, Point } from '../../types';
+import { Point } from '../../types';
 import { OffersList } from '../../components/OffersList/OffersList';
-import { DEFAULT_CITY } from '../../const';
+import { CITIES_DATA } from '../../const';
 import {Map} from '../../components/Map/Map';
+import { CitiesTabs } from '../../components/CitiesTabs/CitiesTabs';
+import { useAppSelector } from '../../store/helpers';
+import { selectCurrentCity, selectOffersList } from '../../store/selectors';
 
-interface MainPageProps {
-  offers?: Offer[];
-}
-
-export const MainPage: FC<MainPageProps> = ({ offers }) => {
+export const MainPage: FC = () => {
   const [activePoint, setActivePoint] = useState<Point>();
-  const [activeCity, setActiveCity] = useState<City>(DEFAULT_CITY);
+
+  const activeCity = useAppSelector(selectCurrentCity);
+
+  const offers = useAppSelector(selectOffersList).filter((offer) => offer.city.name === activeCity.name);
 
   const points = useMemo<Point[]>(
     () =>
@@ -27,45 +29,10 @@ export const MainPage: FC<MainPageProps> = ({ offers }) => {
     <div className="page page--gray page--main">
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </div>
+        <CitiesTabs cities={CITIES_DATA} />
         <div className="cities">
           <div className="cities__places-container container">
-            <OffersList offers={offers ?? []} setActiveCity={setActiveCity} setActivePoint={setActivePoint}
+            <OffersList offers={offers ?? []} setActivePoint={setActivePoint}
               points={points}
             />
             <div className="cities__right-section">

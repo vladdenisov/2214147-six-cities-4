@@ -5,7 +5,6 @@ import { FavoritesPage } from './pages/favorites/favorites.page';
 import { OfferPage } from './pages/offer/offer.page';
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import { NotFountPage } from './pages/not-found/not-found.page';
-import { TMP_OFFERS } from './mocks/offers';
 import { MainLayout } from './layouts/MainLayout';
 import { ROUTE_PATHS } from './const';
 
@@ -14,7 +13,7 @@ export const routes: RouteObject[] = [
     path: ROUTE_PATHS.MAIN,
     element: (
       <MainLayout color="gray">
-        <MainPage offers={TMP_OFFERS} />,
+        <MainPage />,
       </MainLayout>
     ),
   },
