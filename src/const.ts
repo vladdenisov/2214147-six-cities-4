@@ -86,3 +86,7 @@ export const CITIES_DATA: City[] = [
     }
   },
 ];
+
+export enum APIRoute {
+
+}
