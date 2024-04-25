@@ -5,7 +5,8 @@ import { CITIES_DATA } from '../../const';
 import {Map} from '../../components/Map/Map';
 import { CitiesTabs } from '../../components/CitiesTabs/CitiesTabs';
 import { useAppSelector } from '../../store/helpers';
-import { selectCurrentCity, selectOffersList } from '../../store/selectors';
+import { selectCurrentCity, selectLoadingStatus, selectOffersList } from '../../store/selectors';
+import { Spinner } from '../../components/Spinner/Spinner';
 
 export const MainPage: FC = () => {
   const [activePoint, setActivePoint] = useState<Point>();
@@ -24,6 +25,12 @@ export const MainPage: FC = () => {
       })) ?? [],
     [offers]
   );
+
+  const isLoading = useAppSelector(selectLoadingStatus);
+
+  if (isLoading) {
+    return <Spinner withPageWrapper />;
+  }
 
   return (
     <div className="page page--gray page--main">

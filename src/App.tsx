@@ -1,15 +1,18 @@
 import { FC } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { routes } from './routes';
-import { Provider } from 'react-redux';
-import { store } from './store';
+import { useAppDispatch } from './store/helpers';
+import { fetchOffers } from './store/action';
+
 
 export const App: FC = () => {
   const router = createBrowserRouter(routes);
 
+  const dispatch = useAppDispatch();
+
+  dispatch(fetchOffers());
+
   return (
-    <Provider store={store}>
-      <RouterProvider router={router} />;
-    </Provider>
+    <RouterProvider router={router} />
   );
 };
