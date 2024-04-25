@@ -87,6 +87,10 @@ export const CITIES_DATA: City[] = [
   },
 ];
 
-export enum APIRoute {
-
+export enum AuthorizationStatus {
+  LOGGINED = 'LOGGINED',
+  NO_AUTH = 'NO_AUTH',
+  LOADING = 'LOADING'
 }
+
+export const getToken = () => localStorage.getItem('token');
