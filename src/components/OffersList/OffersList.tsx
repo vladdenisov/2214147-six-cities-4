@@ -4,8 +4,7 @@ import { Point, Offer } from '../../types';
 import classNames from 'classnames';
 import { getCardClassName } from '../../utils/cardClassName';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
-import { changeCity } from '../../store/action';
-import { selectCurrentCity } from '../../store/selectors';
+import { changeCity, selectCity } from '../../store/offers/offers.store';
 
 interface OffersListProps {
   offers: Offer[];
@@ -18,7 +17,7 @@ export const OffersList: FC<OffersListProps> = ({ offers, setActivePoint, points
 
   const dispatch = useAppDispatch();
 
-  const activeCity = useAppSelector(selectCurrentCity);
+  const activeCity = useAppSelector(selectCity);
 
   const handleCardMouseEnter = (id: string) => {
     const point = points.find((p) => p.id === id);

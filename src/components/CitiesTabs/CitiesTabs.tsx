@@ -1,17 +1,16 @@
 import { FC, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
-import { selectCurrentCity } from '../../store/selectors';
 import classNames from 'classnames';
-import { changeCity } from '../../store/action';
 import { Link } from 'react-router-dom';
 import { City } from '../../types';
+import { changeCity, selectCity } from '../../store/offers/offers.store';
 
 interface CitiesTabsProps {
   cities: City[];
 }
 
 export const CitiesTabs: FC<CitiesTabsProps> = ({cities}) => {
-  const activeCity = useAppSelector(selectCurrentCity);
+  const activeCity = useAppSelector(selectCity);
   const dispatch = useAppDispatch();
 
   const handleCityClick = useCallback((city: City) => {

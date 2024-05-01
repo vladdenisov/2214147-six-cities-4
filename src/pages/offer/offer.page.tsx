@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { SendCommentForm } from '../../components/SendCommentForm/SendCommentForm';
 import { Navigate, useParams } from 'react-router-dom';
 import { Rating } from '../../components/Rating/Rating';
@@ -9,6 +9,10 @@ import { Card } from '../../components/Card/Card';
 import { OfferGallery } from '../../components/OfferGallery/OfferGallery';
 import { useGetOfferData } from '../../hooks/useGetOfferData';
 import { Spinner } from '../../components/Spinner/Spinner';
+import { useAppDispatch, useAppSelector } from '../../store/helpers';
+import { selectAuthorizationStatus } from '../../store/user/user.store';
+import { AuthorizationStatus } from '../../const';
+import { changeOfferFavoriteStatus } from '../../store/action';
 
 
 export const OfferPage: FC = () => {
@@ -16,7 +20,17 @@ export const OfferPage: FC = () => {
 
   const {offerData: offer, reviewsData, nearbyOffersData, isLoading} = useGetOfferData({ id: id ?? '' });
 
+  const authStatus = useAppSelector(selectAuthorizationStatus);
+
+  const dispatch = useAppDispatch();
+
   const [activePoint, setActivePoint] = useState<Point>();
+
+  const [isOfferInFavorites, setIsOfferInFavorites] = useState<boolean>(offer?.isFavorite ?? false);
+
+  useEffect(() => {
+    setIsOfferInFavorites(offer?.isFavorite ?? false);
+  }, [offer?.isFavorite]);
 
   const points = useMemo<Point[]>(
     () =>
@@ -39,6 +53,12 @@ export const OfferPage: FC = () => {
   const handleCardMouseLeave = () => {
     setActivePoint(undefined);
   };
+
+  const handleFavoriteClick = useCallback(() => {
+    dispatch(changeOfferFavoriteStatus({id: id ?? '', status: !isOfferInFavorites})).then((result) => {
+      setIsOfferInFavorites(result.payload as boolean);
+    });
+  }, [id, isOfferInFavorites, dispatch]);
 
   if (isLoading) {
     return (
@@ -71,14 +91,17 @@ export const OfferPage: FC = () => {
               <h1 className="offer__name">{offer?.title}</h1>
               <button
                 className={`offer__bookmark-button button ${
-                  offer?.isFavorite ? 'offer__bookmark-button--active' : ''
+                  isOfferInFavorites ? 'offer__bookmark-button--active' : ''
                 }`}
                 type="button"
+                onClick={() => {
+                  handleFavoriteClick();
+                }}
               >
                 <svg className="offer__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
-                {offer?.isFavorite ? (
+                {isOfferInFavorites ? (
                   <span className="visually-hidden">In bookmarks</span>
                 ) : (
                   <span className="visually-hidden">To bookmarks</span>
@@ -146,7 +169,11 @@ export const OfferPage: FC = () => {
             </div>
             <section className="offer__reviews reviews">
               <ReviewsList reviews={reviewsData} />
-              <SendCommentForm />
+              {
+                authStatus === AuthorizationStatus.LOGGINED && (
+                  <SendCommentForm />
+                )
+              }
             </section>
           </div>
         </div>
