@@ -93,4 +93,18 @@ export enum AuthorizationStatus {
   LOADING = 'LOADING'
 }
 
+export enum SortOptions {
+  POPULAR = 'POPULAR',
+  TOP_RATED = 'TOP_RATED',
+  PRICE_LOW_TO_HIGH = 'PRICE_LOW_TO_HIGH',
+  PRICE_HIGH_TO_LOW = 'PRICE_HIGH_TO_LOW',
+}
+
+export const SortOptionsTitles = {
+  [SortOptions.TOP_RATED]: 'Top rated first',
+  [SortOptions.PRICE_LOW_TO_HIGH]: 'Price: low to high',
+  [SortOptions.PRICE_HIGH_TO_LOW]: 'Price: high to low',
+  [SortOptions.POPULAR]: 'Popular',
+};
+
 export const getToken = () => localStorage.getItem('token');

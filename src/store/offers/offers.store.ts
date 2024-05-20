@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { CITIES_DATA } from '../../const';
+import { CITIES_DATA, SortOptions } from '../../const';
 import { City, Offer } from '../../types';
 import { State } from '../../types/State';
 
@@ -7,12 +7,14 @@ export interface OffersStore {
   city: City;
   offersList: Offer[];
   isLoading: boolean;
+  sortOption: SortOptions;
 }
 
 const initialState: OffersStore = {
   city: CITIES_DATA[0],
   offersList: [],
   isLoading: true,
+  sortOption: SortOptions.POPULAR,
 };
 
 export const offers = createSlice({
@@ -28,13 +30,17 @@ export const offers = createSlice({
     changeLoadingStatus(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
+    changeSortOption(state, action: PayloadAction<SortOptions>) {
+      state.sortOption = action.payload;
+    },
   },
 });
 
-export const { changeCity, changeOffersList, changeLoadingStatus } = offers.actions;
+export const { changeCity, changeOffersList, changeLoadingStatus, changeSortOption } = offers.actions;
 
 export const selectCity = (state: State) => state.offers.city;
 export const selectOffersList = (state: State) => state.offers.offersList;
 export const selectOffersLoadingStatus = (state: State) => state.offers.isLoading;
+export const selectSortOption = (state: State) => state.offers.sortOption;
 
 export const offersReducer = offers.reducer;
