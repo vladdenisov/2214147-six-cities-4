@@ -1,26 +1,46 @@
-import { FC, FormEvent, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
 import { login } from '../../store/action';
 import { selectAuthorizationStatus } from '../../store/user/user.store';
-import { AuthorizationStatus } from '../../const';
-import { Navigate } from 'react-router-dom';
+import { AuthorizationStatus, ROUTE_PATHS } from '../../const';
+import { Navigate, useSearchParams } from 'react-router-dom';
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 export const LoginPage: FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   const dispatch = useAppDispatch();
 
   const authStatus = useAppSelector(selectAuthorizationStatus);
 
-  const handleSumbit = (evt: FormEvent) => {
-    evt.preventDefault();
-    dispatch(login({ email, password }));
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: '',
+    password: '',
+  });
+
+  const handleFormChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [evt.target.name]: evt.target.value,
+    }));
   };
 
+  const handleSubmit = (evt: FormEvent) => {
+    if (formData.email === '' || formData.password === '') {
+      return;
+    }
+    evt.preventDefault();
+    dispatch(login(formData));
+  };
+
+  const [params] = useSearchParams();
+
   if (authStatus === AuthorizationStatus.LOGGINED) {
+    const from = params.get('redirect') || ROUTE_PATHS.MAIN;
     return (
-      <Navigate to="/" />
+      <Navigate to={from} />
     );
   }
 
@@ -48,7 +68,7 @@ export const LoginPage: FC = () => {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post" onSubmit={handleSumbit}>
+            <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
@@ -57,8 +77,7 @@ export const LoginPage: FC = () => {
                   name="email"
                   placeholder="Email"
                   required
-                  value={email}
-                  onChange={(evt) => setEmail(evt.target.value)}
+                  onChange={handleFormChange}
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -69,8 +88,7 @@ export const LoginPage: FC = () => {
                   name="password"
                   placeholder="Password"
                   required
-                  value={password}
-                  onChange={(evt) => setPassword(evt.target.value)}
+                  onChange={handleFormChange}
                 />
               </div>
               <button className="login__submit form__submit button" type="submit">

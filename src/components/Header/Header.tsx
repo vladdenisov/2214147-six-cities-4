@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
 import { selectUser } from '../../store/user/user.store';
@@ -9,6 +9,8 @@ import { selectFavoritesCount } from '../../store/favorites/favorites.store';
 export const Header: FC = () => {
   const user = useAppSelector(selectUser);
   const favoritesCount = useAppSelector(selectFavoritesCount);
+
+  const location = useLocation();
 
   const IS_AUTHENTICATED = !!user;
 
@@ -64,7 +66,7 @@ export const Header: FC = () => {
               ) : (
                 <Link
                   className="header__nav-link header__nav-link--profile"
-                  to={ROUTE_PATHS.LOGIN}
+                  to={`${ROUTE_PATHS.LOGIN}?redirect=${location.pathname}`}
                 >
                   <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                   <span className="header__login">Sign in</span>

@@ -1,10 +1,12 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Card } from '../Card/Card';
 import { Point, Offer } from '../../types';
 import classNames from 'classnames';
 import { getCardClassName } from '../../utils/cardClassName';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
-import { changeCity, selectCity } from '../../store/offers/offers.store';
+import { changeCity, selectCity, selectSortOption } from '../../store/offers/offers.store';
+import { SortingForm } from '../Sorting/Sorting';
+import { SortOptions } from '../../const';
 
 interface OffersListProps {
   offers: Offer[];
@@ -18,6 +20,31 @@ export const OffersList: FC<OffersListProps> = ({ offers, setActivePoint, points
   const dispatch = useAppDispatch();
 
   const activeCity = useAppSelector(selectCity);
+
+  const selectedSortOption = useAppSelector(selectSortOption);
+
+  const [sortedOffers, setSortedOffers] = useState(offers);
+
+  useEffect(() => {
+    if (selectedSortOption) {
+      setSortedOffers(offers.slice().sort((a, b) => {
+        if (selectedSortOption === SortOptions.POPULAR) {
+          return 0;
+        }
+        if (selectedSortOption === SortOptions.PRICE_LOW_TO_HIGH) {
+          return a.price - b.price;
+        }
+        if (selectedSortOption === SortOptions.PRICE_HIGH_TO_LOW) {
+          return b.price - a.price;
+        }
+        if (selectedSortOption === SortOptions.TOP_RATED) {
+          return b.rating - a.rating;
+        }
+        return 0;
+      }));
+    }
+  }, [offers, selectedSortOption]);
+
 
   const handleCardMouseEnter = (id: string) => {
     const point = points.find((p) => p.id === id);
@@ -40,33 +67,11 @@ export const OffersList: FC<OffersListProps> = ({ offers, setActivePoint, points
       <b className="places__found">
         {offers?.length ?? 0} places to stay in {activeCity.name}
       </b>
-      <form className="places__sorting" action="#" method="get">
-        <span className="places__sorting-caption">Sort by</span>
-        <span className="places__sorting-type" tabIndex={0}>
-            Popular
-          <svg className="places__sorting-arrow" width="7" height="4">
-            <use xlinkHref="#icon-arrow-select"></use>
-          </svg>
-        </span>
-        <ul className="places__options places__options--custom places__options--opened">
-          <li className="places__option places__option--active" tabIndex={0}>
-              Popular
-          </li>
-          <li className="places__option" tabIndex={0}>
-              Price: low to high
-          </li>
-          <li className="places__option" tabIndex={0}>
-              Price: high to low
-          </li>
-          <li className="places__option" tabIndex={0}>
-              Top rated first
-          </li>
-        </ul>
-      </form>
+      <SortingForm />
       <div
         className={classNames(getCardClassName(prefix, 'places-list'), 'places__list tabs__content')}
       >
-        {offers.map((card) => (
+        {sortedOffers.map((card) => (
           <Card
             prefix="cities"
             key={`card-${card.id}`}
