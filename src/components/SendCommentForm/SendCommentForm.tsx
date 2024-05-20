@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { RatingForm } from '../RatingForm/RatingForm';
 import { Comment } from '../../types';
 import {
@@ -8,10 +8,14 @@ import {
   MAX_REVIEW_LENGTH,
 } from '../../const';
 
-export const SendCommentForm: FC = () => {
+interface SendCommentFormProps {
+  onSend: (comment: Comment) => void;
+}
+
+export const SendCommentForm: FC<SendCommentFormProps> = ({onSend}) => {
   const [comment, setComment] = useState<Comment>({
     rating: 0,
-    review: '',
+    comment: '',
   });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -35,9 +39,15 @@ export const SendCommentForm: FC = () => {
 
   useEffect(() => {
     setIsButtonDisabled(
-      comment.rating === 0 || comment.review.length < MIN_REVIEW_LENGTH
+      comment.rating === 0 || comment.comment.length < MIN_REVIEW_LENGTH
     );
-  }, [comment.rating, comment.review]);
+  }, [comment.rating, comment.comment]);
+
+  const handleFormSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    onSend(comment);
+    setComment((prev) => ({...prev, comment: ''}));
+  };
 
   return (
     <form className="reviews__form form" action="#" method="post">
@@ -51,11 +61,12 @@ export const SendCommentForm: FC = () => {
       />
       <textarea
         className="reviews__textarea form__textarea"
-        id="review"
-        name="review"
+        id="comment"
+        name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={onChange}
         maxLength={MAX_REVIEW_LENGTH}
+        value={comment.comment}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -64,8 +75,8 @@ export const SendCommentForm: FC = () => {
           with at least{' '}
           <b className="reviews__text-amount">
             {MIN_REVIEW_LENGTH} characters{' '}
-            {MIN_REVIEW_LENGTH - comment.review.length > 0 &&
-              `(${MIN_REVIEW_LENGTH - comment.review.length} left)`}
+            {MIN_REVIEW_LENGTH - comment.comment.length > 0 &&
+              `(${MIN_REVIEW_LENGTH - comment.comment.length} left)`}
           </b>
           .
         </p>
@@ -73,11 +84,7 @@ export const SendCommentForm: FC = () => {
           className="reviews__submit form__submit button"
           type="submit"
           disabled={isButtonDisabled}
-          onClick={(e) => {
-            e.preventDefault();
-            // eslint-disable-next-line no-console
-            console.info('sending', comment);
-          }}
+          onClick={handleFormSubmit}
         >
           Submit
         </button>

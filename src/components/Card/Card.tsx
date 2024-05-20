@@ -9,12 +9,14 @@ export interface CardProps extends Offer {
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   prefix?: string;
+  onFavoriteClick: (id: string, status: boolean) => void;
 }
 
 export const Card: FC<CardProps> = ({
   onMouseEnter,
   onMouseLeave,
   prefix,
+  onFavoriteClick,
   ...offer
 }) => (
   <article
@@ -54,6 +56,7 @@ export const Card: FC<CardProps> = ({
             offer.isFavorite ? 'place-card__bookmark-button--active' : ''
           }`}
           type="button"
+          onClick={() => onFavoriteClick(offer.id, !offer.isFavorite)}
         >
           <svg className="place-card__bookmark-icon" width="18" height="19">
             <use xlinkHref="#icon-bookmark"></use>
