@@ -4,7 +4,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import { Rating } from '../../components/Rating/Rating';
 import { ReviewsList } from '../../components/ReviewsList/ReviewsList';
 import {Map} from '../../components/Map/Map';
-import { Point } from '../../types';
+import { Point, Review } from '../../types';
 import { Card } from '../../components/Card/Card';
 import { OfferGallery } from '../../components/OfferGallery/OfferGallery';
 import { useGetOfferData } from '../../hooks/useGetOfferData';
@@ -13,12 +13,13 @@ import { useAppDispatch, useAppSelector } from '../../store/helpers';
 import { selectAuthorizationStatus } from '../../store/user/user.store';
 import { AuthorizationStatus } from '../../const';
 import { changeOfferFavoriteStatus } from '../../store/action';
+import useMutation from '../../hooks/useMutation';
 
 
 export const OfferPage: FC = () => {
   const { id } = useParams();
 
-  const {offerData: offer, reviewsData, nearbyOffersData, isLoading} = useGetOfferData({ id: id ?? '' });
+  const {offerData: offer, reviewsData, nearbyOffersData, isLoading, addReview, changeOfferIsFavorite} = useGetOfferData({ id: id ?? '' });
 
   const authStatus = useAppSelector(selectAuthorizationStatus);
 
@@ -59,6 +60,18 @@ export const OfferPage: FC = () => {
       setIsOfferInFavorites(result.payload as boolean);
     });
   }, [id, isOfferInFavorites, dispatch]);
+
+  const handleNearbyOfferFavoriteClick = useCallback((nearbyOfferId: string, status: boolean) => {
+    dispatch(changeOfferFavoriteStatus({id: nearbyOfferId, status})).then((result) => {
+      changeOfferIsFavorite?.(nearbyOfferId, result.payload as boolean);
+    });
+  }, [dispatch, changeOfferIsFavorite]);
+
+  const [mutate] = useMutation<Review>(`/comments/${id}`, 'POST', {
+    onSuccess: (data) => {
+      addReview(data);
+    },
+  });
 
   if (isLoading) {
     return (
@@ -171,7 +184,10 @@ export const OfferPage: FC = () => {
               <ReviewsList reviews={reviewsData} />
               {
                 authStatus === AuthorizationStatus.LOGGINED && (
-                  <SendCommentForm />
+                  <SendCommentForm onSend={(comment) => {
+                    mutate(JSON.stringify(comment));
+                  }}
+                  />
                 )
               }
             </section>
@@ -194,6 +210,7 @@ export const OfferPage: FC = () => {
                     onMouseEnter={() => handleCardMouseEnter(item.id)}
                     onMouseLeave={handleCardMouseLeave}
                     {...item}
+                    onFavoriteClick={handleNearbyOfferFavoriteClick}
                   />
                 ))}
               </div>

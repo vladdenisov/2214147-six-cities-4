@@ -33,10 +33,16 @@ export const offers = createSlice({
     changeSortOption(state, action: PayloadAction<SortOptions>) {
       state.sortOption = action.payload;
     },
+    changeSpecificOfferFavoriteStatus(state, action: PayloadAction<{id: string; status: boolean}>) {
+      const offer = state.offersList.find((item) => item.id === action.payload.id);
+      if (offer) {
+        offer.isFavorite = action.payload.status;
+      }
+    }
   },
 });
 
-export const { changeCity, changeOffersList, changeLoadingStatus, changeSortOption } = offers.actions;
+export const { changeCity, changeOffersList, changeLoadingStatus, changeSortOption, changeSpecificOfferFavoriteStatus } = offers.actions;
 
 export const selectCity = (state: State) => state.offers.city;
 export const selectOffersList = (state: State) => state.offers.offersList;

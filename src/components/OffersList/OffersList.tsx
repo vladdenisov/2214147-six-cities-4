@@ -1,12 +1,13 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { Card } from '../Card/Card';
 import { Point, Offer } from '../../types';
 import classNames from 'classnames';
 import { getCardClassName } from '../../utils/cardClassName';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
-import { changeCity, selectCity, selectSortOption } from '../../store/offers/offers.store';
+import { changeCity, changeSpecificOfferFavoriteStatus, selectCity, selectSortOption } from '../../store/offers/offers.store';
 import { SortingForm } from '../Sorting/Sorting';
 import { SortOptions } from '../../const';
+import { changeOfferFavoriteStatus } from '../../store/action';
 
 interface OffersListProps {
   offers: Offer[];
@@ -61,6 +62,12 @@ export const OffersList: FC<OffersListProps> = ({ offers, setActivePoint, points
     setActivePoint(undefined);
   };
 
+  const handleFavoriteClick = useCallback((id: string, status: boolean) => {
+    dispatch(changeOfferFavoriteStatus({id, status})).then((result) => {
+      dispatch(changeSpecificOfferFavoriteStatus({id, status: result.payload as boolean}));
+    });
+  }, [dispatch]);
+
   return (
     <section className={classNames(getCardClassName(prefix, 'places'), 'places')}>
       <h2 className="visually-hidden">Places</h2>
@@ -78,6 +85,7 @@ export const OffersList: FC<OffersListProps> = ({ offers, setActivePoint, points
             onMouseEnter={() => handleCardMouseEnter(card.id)}
             onMouseLeave={() => handleCardMouseLeave()}
             {...card}
+            onFavoriteClick={handleFavoriteClick}
           />
         ))}
       </div>
