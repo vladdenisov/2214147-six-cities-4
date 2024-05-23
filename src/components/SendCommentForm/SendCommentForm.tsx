@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
 import { RatingForm } from '../RatingForm/RatingForm';
 import { Comment } from '../../types';
 import {
@@ -43,11 +43,11 @@ export const SendCommentForm: FC<SendCommentFormProps> = ({onSend}) => {
     );
   }, [comment.rating, comment.comment]);
 
-  const handleFormSubmit = (e: FormEvent) => {
+  const handleFormSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
     onSend(comment);
     setComment((prev) => ({...prev, comment: ''}));
-  };
+  }, [comment, onSend]);
 
   return (
     <form className="reviews__form form" action="#" method="post">
