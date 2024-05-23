@@ -107,4 +107,4 @@ export const SortOptionsTitles = {
   [SortOptions.POPULAR]: 'Popular',
 };
 
-export const getToken = () => localStorage.getItem('token');
+export const getToken = () => localStorage.getItem('six-cities-token');

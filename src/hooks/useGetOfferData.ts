@@ -25,7 +25,7 @@ export const useGetOfferData = ({id}: useGetOfferDataParams): useGetOfferDataRes
 
   useEffect(() => {
     if (reviewsRawData) {
-      setReviewsData(reviewsRawData);
+      setReviewsData(reviewsRawData.splice(0, 10).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
     }
   }, [reviewsRawData]);
 
