@@ -44,16 +44,16 @@ export const OfferPage: FC = () => {
     [nearbyOffersData]
   );
 
-  const handleCardMouseEnter = (placeId: string) => {
+  const handleCardMouseEnter = useCallback((placeId: string) => {
     const point = points.find((p) => p.id === placeId);
     if (point) {
       setActivePoint(point);
     }
-  };
+  }, [points]);
 
-  const handleCardMouseLeave = () => {
+  const handleCardMouseLeave = useCallback(() => {
     setActivePoint(undefined);
-  };
+  }, []);
 
   const handleFavoriteClick = useCallback(() => {
     dispatch(changeOfferFavoriteStatus({id: id ?? '', status: !isOfferInFavorites})).then((result) => {

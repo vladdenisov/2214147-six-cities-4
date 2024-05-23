@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
 import { login } from '../../store/action';
 import { selectAuthorizationStatus } from '../../store/user/user.store';
@@ -27,13 +27,13 @@ export const LoginPage: FC = () => {
     }));
   };
 
-  const handleSubmit = (evt: FormEvent) => {
+  const handleSubmit = useCallback((evt: FormEvent) => {
     if (formData.email === '' || formData.password === '') {
       return;
     }
     evt.preventDefault();
     dispatch(login(formData));
-  };
+  }, [formData, dispatch]);
 
   const [params] = useSearchParams();
 

@@ -30,20 +30,22 @@ export const SortingForm = () => {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={classNames('places__options places__options--custom', isOpened && 'places__options--opened')}>
-        {
-          Object.values(SortOptions).map((option) => (
-            <SortingItem
-              key={option}
-              name={SortOptionsTitles[option]}
-              isActive={sortOption === option}
-              onClick={() => {
-                selectOption(option);
-              }}
-            />
-          ))
-        }
-      </ul>
+      {isOpened && (
+        <ul className={classNames('places__options places__options--custom', isOpened && 'places__options--opened')}>
+          {
+            Object.values(SortOptions).map((option) => (
+              <SortingItem
+                key={option}
+                name={SortOptionsTitles[option]}
+                isActive={sortOption === option}
+                onClick={() => {
+                  selectOption(option);
+                }}
+              />
+            ))
+          }
+        </ul>
+      )}
     </form>
   );
 };
