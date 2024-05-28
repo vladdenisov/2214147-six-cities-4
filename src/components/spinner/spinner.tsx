@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import './Spinner.css';
+import './spinner.css';
 import classNames from 'classnames';
 
 interface SpinnerProps {

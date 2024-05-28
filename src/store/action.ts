@@ -35,6 +35,7 @@ export const fetchFavorites = createAsyncThunk<void, undefined, ThunkConfig>('fa
   { extra, dispatch }
 ) => {
   dispatch(changeFavoritesLoadingStatus(true));
+
   const response = await extra.get<Offer[]>('/favorite');
   dispatch(changeFavoritesLoadingStatus(false));
   if (response.status === 200) {
@@ -63,6 +64,7 @@ export const login = createAsyncThunk<void, { email: string; password: string },
   { extra, dispatch }
 ) => {
   dispatch(changeAuthorizationStatus(AuthorizationStatus.LOADING));
+
   const response = await extra.post<User>('/login', { email, password });
   if (response.status === 201) {
     dispatch(signIn(response.data));
