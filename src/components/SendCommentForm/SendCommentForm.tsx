@@ -10,15 +10,20 @@ import {
 
 interface SendCommentFormProps {
   onSend: (comment: Comment) => void;
+  isLoading?: boolean;
 }
 
-export const SendCommentForm: FC<SendCommentFormProps> = ({onSend}) => {
+export const SendCommentForm: FC<SendCommentFormProps> = ({onSend, isLoading}) => {
   const [comment, setComment] = useState<Comment>({
     rating: 0,
     comment: '',
   });
 
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(isLoading);
+
+  useEffect(() => {
+    setIsButtonDisabled(isLoading);
+  }, [isLoading]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const key = e.target.name;
@@ -39,7 +44,7 @@ export const SendCommentForm: FC<SendCommentFormProps> = ({onSend}) => {
 
   useEffect(() => {
     setIsButtonDisabled(
-      comment.rating === 0 || comment.comment.length < MIN_REVIEW_LENGTH
+      comment.rating === 0 || comment.comment.length < MIN_REVIEW_LENGTH || comment.comment.length > MAX_REVIEW_LENGTH
     );
   }, [comment.rating, comment.comment]);
 

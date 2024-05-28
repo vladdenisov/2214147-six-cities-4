@@ -67,17 +67,17 @@ export const login = createAsyncThunk<void, { email: string; password: string },
   if (response.status === 201) {
     dispatch(signIn(response.data));
     if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('six-cities-token', response.data.token);
     }
     dispatch(changeAuthorizationStatus(AuthorizationStatus.LOGGINED));
     dispatch(fetchFavorites());
+    dispatch(fetchOffers());
   }
 });
 
-export const logout = createAsyncThunk<void, undefined, ThunkConfig>('auth/logout', async (_, { extra, dispatch }) => {
-  const response = await extra.delete('/logout');
-  if (response.status === 204) {
-    dispatch(signOut());
-  }
-  localStorage.removeItem('token');
+export const logout = createAsyncThunk<void, undefined, ThunkConfig>('auth/logout', (_, { extra, dispatch }) => {
+  extra.delete('/logout');
+  dispatch(signOut());
+  dispatch(fetchOffers());
+  localStorage.removeItem('six-cities-token');
 });

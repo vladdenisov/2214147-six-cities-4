@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { SendCommentForm } from '../../components/SendCommentForm/SendCommentForm';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Rating } from '../../components/Rating/Rating';
 import { ReviewsList } from '../../components/ReviewsList/ReviewsList';
 import {Map} from '../../components/Map/Map';
@@ -11,7 +11,7 @@ import { useGetOfferData } from '../../hooks/useGetOfferData';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
 import { selectAuthorizationStatus } from '../../store/user/user.store';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, ROUTE_PATHS } from '../../const';
 import { changeOfferFavoriteStatus } from '../../store/action';
 import useMutation from '../../hooks/useMutation';
 
@@ -22,6 +22,7 @@ export const OfferPage: FC = () => {
   const {offerData: offer, reviewsData, nearbyOffersData, isLoading, addReview, changeOfferIsFavorite} = useGetOfferData({ id: id ?? '' });
 
   const authStatus = useAppSelector(selectAuthorizationStatus);
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -56,6 +57,10 @@ export const OfferPage: FC = () => {
   }, []);
 
   const handleFavoriteClick = useCallback(() => {
+    if (authStatus !== AuthorizationStatus.LOGGINED) {
+      navigate(ROUTE_PATHS.LOGIN);
+      return;
+    }
     dispatch(changeOfferFavoriteStatus({id: id ?? '', status: !isOfferInFavorites})).then((result) => {
       setIsOfferInFavorites(result.payload as boolean);
     });
@@ -67,7 +72,7 @@ export const OfferPage: FC = () => {
     });
   }, [dispatch, changeOfferIsFavorite]);
 
-  const [mutate] = useMutation<Review>(`/comments/${id}`, 'POST', {
+  const [mutate, {loading: isOfferMutationLoading}] = useMutation<Review>(`/comments/${id}`, 'POST', {
     onSuccess: (data) => {
       addReview(data);
     },
@@ -184,9 +189,11 @@ export const OfferPage: FC = () => {
               <ReviewsList reviews={reviewsData} />
               {
                 authStatus === AuthorizationStatus.LOGGINED && (
-                  <SendCommentForm onSend={(comment) => {
-                    mutate(JSON.stringify(comment));
-                  }}
+                  <SendCommentForm
+                    onSend={(comment) => {
+                      mutate(JSON.stringify(comment));
+                    }}
+                    isLoading={isOfferMutationLoading}
                   />
                 )
               }
