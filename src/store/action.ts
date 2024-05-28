@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Offer, User } from '../types';
 import { ThunkConfig } from './helpers';
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus, TOKEN_KEY } from '../const';
 import { changeLoadingStatus, changeOffersList } from './offers/offers.store';
 import { changeAuthorizationStatus, signIn, signOut } from './user/user.store';
 import { addToFavorites, changeFavoritesList, changeFavoritesLoadingStatus, removeFromFavorites } from './favorites/favorites.store';
@@ -67,7 +67,7 @@ export const login = createAsyncThunk<void, { email: string; password: string },
   if (response.status === 201) {
     dispatch(signIn(response.data));
     if (response.data.token) {
-      localStorage.setItem('six-cities-token', response.data.token);
+      localStorage.setItem(TOKEN_KEY, response.data.token);
     }
     dispatch(changeAuthorizationStatus(AuthorizationStatus.LOGGINED));
     dispatch(fetchFavorites());
@@ -79,5 +79,5 @@ export const logout = createAsyncThunk<void, undefined, ThunkConfig>('auth/logou
   extra.delete('/logout');
   dispatch(signOut());
   dispatch(fetchOffers());
-  localStorage.removeItem('six-cities-token');
+  localStorage.removeItem(TOKEN_KEY);
 });

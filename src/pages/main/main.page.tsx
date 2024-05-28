@@ -1,13 +1,14 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { Point } from '../../types';
-import { OffersList } from '../../components/OffersList/OffersList';
+import { OffersList } from '../../components/offers-list/offers-list';
 import { CITIES_DATA } from '../../const';
-import {Map} from '../../components/Map/Map';
-import { CitiesTabs } from '../../components/CitiesTabs/CitiesTabs';
-import { useAppSelector } from '../../store/helpers';
-import { Spinner } from '../../components/Spinner/Spinner';
-import { selectCity, selectOffersList, selectOffersLoadingStatus } from '../../store/offers/offers.store';
-import { EmptyOffers } from '../../components/EmptyOffers/EmptyOffers';
+import {Map} from '../../components/map/map';
+import { CitiesTabs } from '../../components/cities-tabs/cities-tabs';
+import { useAppDispatch, useAppSelector } from '../../store/helpers';
+import { Spinner } from '../../components/spinner/spinner';
+import { changeCity, selectCity, selectOffersList, selectOffersLoadingStatus } from '../../store/offers/offers.store';
+import { EmptyOffers } from '../../components/empty-offers/empty-offers';
+import { useParams } from 'react-router-dom';
 
 export const MainPage: FC = () => {
   const [activePoint, setActivePoint] = useState<Point>();
@@ -26,6 +27,19 @@ export const MainPage: FC = () => {
       })) ?? [],
     [offers]
   );
+
+  const dispatch = useAppDispatch();
+
+  const { city } = useParams();
+
+  useEffect(() => {
+    if (city) {
+      const cityData = CITIES_DATA.find((item) => item.name === city);
+      if (cityData) {
+        dispatch(changeCity(cityData));
+      }
+    }
+  }, [city, dispatch]);
 
   const isLoading = useAppSelector(selectOffersLoadingStatus);
 

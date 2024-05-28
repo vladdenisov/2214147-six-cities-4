@@ -1,11 +1,11 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import { Card } from '../Card/Card';
+import { Card } from '../card/card';
 import { Point, Offer } from '../../types';
 import classNames from 'classnames';
-import { getCardClassName } from '../../utils/cardClassName';
+import { getCardClassName } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
 import { changeCity, changeSpecificOfferFavoriteStatus, selectCity, selectSortOption } from '../../store/offers/offers.store';
-import { SortingForm } from '../Sorting/Sorting';
+import { SortingForm } from '../sorting/sorting';
 import { SortOptions } from '../../const';
 import { changeOfferFavoriteStatus } from '../../store/action';
 

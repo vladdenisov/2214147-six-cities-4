@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SortOptions, SortOptionsTitles } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
 import { changeSortOption, selectSortOption } from '../../store/offers/offers.store';
-import { SortingItem } from './SortingItem';
+import { SortingItem } from './sorting-item';
 import classNames from 'classnames';
 
 export const SortingForm = () => {

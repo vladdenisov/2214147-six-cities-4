@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Review } from '../../types';
-import { Rating } from '../Rating/Rating';
-import { formatDateToDateString, formatDateToMonthYear } from '../../utils/dateTime';
+import { Rating } from '../rating/rating';
+import { formatDateToDateString, formatDateToMonthYear } from '../../utils';
 
 interface ReviewItemProps {
   review: Review;

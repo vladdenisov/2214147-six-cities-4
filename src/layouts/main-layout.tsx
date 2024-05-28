@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from 'react';
-import { Header } from '../components/Header/Header';
+import { Header } from '../components/header/header';
 
 interface MainLayoutProps {
   color?: string;
