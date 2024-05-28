@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { CITIES_DATA, SortOptions } from '../../const';
 import { City, Offer } from '../../types';
-import { State } from '../../types/State';
+import { State } from '../../types/state';
 
 export interface OffersStore {
   city: City;

@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { FavoritesList } from '../../components/FavoritesList/FavoritesList';
+import { FavoritesList } from '../../components/favorites-list/favorites-list';
 import { useAppSelector } from '../../store/helpers';
 import { selectFavoritesList, selectFavoritesLoadingStatus } from '../../store/favorites/favorites.store';
-import { Spinner } from '../../components/Spinner/Spinner';
+import { Spinner } from '../../components/spinner/spinner';
 
 export const FavoritesPage: FC = () => {
   const offers = useAppSelector(selectFavoritesList);

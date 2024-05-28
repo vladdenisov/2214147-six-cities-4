@@ -1,4 +1,4 @@
-import { ILocation } from './Location';
+import { ILocation } from './location';
 
 export interface Offer {
   id: string;

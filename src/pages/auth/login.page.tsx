@@ -2,8 +2,8 @@ import { ChangeEvent, FC, FormEvent, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
 import { login } from '../../store/action';
 import { selectAuthorizationStatus } from '../../store/user/user.store';
-import { AuthorizationStatus, ROUTE_PATHS } from '../../const';
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { AuthorizationStatus, CITIES_DATA, ROUTE_PATHS } from '../../const';
+import { Link, Navigate, useSearchParams } from 'react-router-dom';
 
 interface LoginFormData {
   email: string;
@@ -43,6 +43,8 @@ export const LoginPage: FC = () => {
       <Navigate to={from} />
     );
   }
+
+  const randomCity = CITIES_DATA[Math.floor(Math.random() * CITIES_DATA.length)];
 
   return (
     <div className="page page--gray page--login">
@@ -98,9 +100,9 @@ export const LoginPage: FC = () => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link className="locations__item-link" to={`/${randomCity.name}`}>
+                <span>{randomCity.name}</span>
+              </Link>
             </div>
           </section>
         </div>

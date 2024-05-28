@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Offer } from '../../types';
-import { State } from '../../types/State';
+import { State } from '../../types/state';
 
 export interface FavoritesState {
   favorites: Offer[];

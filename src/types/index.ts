@@ -1,6 +1,6 @@
-export type { Comment } from './Comment';
-export type { City, ILocation } from './Location';
-export type { Offer, OfferDetails } from './Offer';
-export type { User } from './User';
-export type { Point } from './Point';
-export type { Review } from './Review';
+export type { Comment } from './comment';
+export type { City, ILocation } from './location';
+export type { Offer, OfferDetails } from './offer';
+export type { User } from './user';
+export type { Point } from './point';
+export type { Review } from './review';

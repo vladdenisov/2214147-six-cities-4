@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Offer, OfferDetails, Review } from '../types';
-import useQuery from './useQuery';
+import useQuery from './use-query';
 
 interface useGetOfferDataParams {
   id: string;

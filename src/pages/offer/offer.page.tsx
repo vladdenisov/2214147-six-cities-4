@@ -1,19 +1,18 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { SendCommentForm } from '../../components/SendCommentForm/SendCommentForm';
+import { SendCommentForm } from '../../components/send-comment-form/send-comment-form';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { Rating } from '../../components/Rating/Rating';
-import { ReviewsList } from '../../components/ReviewsList/ReviewsList';
-import {Map} from '../../components/Map/Map';
+import { Rating } from '../../components/rating/rating';
+import { ReviewsList } from '../../components/reviews-list/reviews-list';
+import {Map} from '../../components/map/map';
 import { Point, Review } from '../../types';
-import { Card } from '../../components/Card/Card';
-import { OfferGallery } from '../../components/OfferGallery/OfferGallery';
-import { useGetOfferData } from '../../hooks/useGetOfferData';
-import { Spinner } from '../../components/Spinner/Spinner';
+import { Card } from '../../components/card/card';
+import { OfferGallery } from '../../components/offer-gallery/offer-gallery';
+import { useGetOfferData, useMutation } from '../../hooks';
+import { Spinner } from '../../components/spinner/spinner';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
 import { selectAuthorizationStatus } from '../../store/user/user.store';
 import { AuthorizationStatus, ROUTE_PATHS } from '../../const';
 import { changeOfferFavoriteStatus } from '../../store/action';
-import useMutation from '../../hooks/useMutation';
 
 
 export const OfferPage: FC = () => {
@@ -64,7 +63,7 @@ export const OfferPage: FC = () => {
     dispatch(changeOfferFavoriteStatus({id: id ?? '', status: !isOfferInFavorites})).then((result) => {
       setIsOfferInFavorites(result.payload as boolean);
     });
-  }, [id, isOfferInFavorites, dispatch]);
+  }, [authStatus, dispatch, id, isOfferInFavorites, navigate]);
 
   const handleNearbyOfferFavoriteClick = useCallback((nearbyOfferId: string, status: boolean) => {
     dispatch(changeOfferFavoriteStatus({id: nearbyOfferId, status})).then((result) => {

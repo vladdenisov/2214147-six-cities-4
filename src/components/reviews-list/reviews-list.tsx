@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { ReviewItem } from './ReviewItem';
+import { ReviewItem } from './reviews-item';
 import { Review } from '../../types';
 
 interface ReviewsListProps {

@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
-import { RatingForm } from '../RatingForm/RatingForm';
+import { RatingForm } from '../rating-form/rating-form';
 import { Comment } from '../../types';
 import {
   MAX_RATING,
@@ -25,7 +25,7 @@ export const SendCommentForm: FC<SendCommentFormProps> = ({onSend, isLoading}) =
     setIsButtonDisabled(isLoading);
   }, [isLoading]);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const key = e.target.name;
     const value = e.target.value;
 
@@ -62,14 +62,14 @@ export const SendCommentForm: FC<SendCommentFormProps> = ({onSend, isLoading}) =
       <RatingForm
         maxRating={MAX_RATING}
         titles={RATING_TITLES}
-        onRatingChange={onChange}
+        onRatingChange={handleChange}
       />
       <textarea
         className="reviews__textarea form__textarea"
         id="comment"
         name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={onChange}
+        onChange={handleChange}
         maxLength={MAX_REVIEW_LENGTH}
         value={comment.comment}
       />

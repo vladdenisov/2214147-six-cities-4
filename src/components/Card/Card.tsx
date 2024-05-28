@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Offer } from '../../types';
-import { Rating } from '../Rating/Rating';
+import { Rating } from '../rating/rating';
 import { AuthorizationStatus, ROUTE_PATHS } from '../../const';
-import { getCardClassName } from '../../utils/cardClassName';
+import { getCardClassName } from '../../utils';
 import { selectAuthorizationStatus } from '../../store/user/user.store';
 import { useAppSelector } from '../../store/helpers';
 

@@ -1,6 +1,6 @@
 import { FC, useCallback } from 'react';
 import { Offer } from '../../types';
-import { Card } from '../Card/Card';
+import { Card } from '../card/card';
 import { useAppDispatch } from '../../store/helpers';
 import { changeOfferFavoriteStatus } from '../../store/action';
 import { changeSpecificOfferFavoriteStatus } from '../../store/offers/offers.store';
@@ -16,7 +16,7 @@ export const FavoritesList: FC<FavoritesListProps> = ({ offers }) => {
 
   const dispatch = useAppDispatch();
 
-  const onFavoriteClick = useCallback((id: string) => {
+  const handleFavoriteClick = useCallback((id: string) => {
     dispatch(changeOfferFavoriteStatus({id, status: false})).then(() => {
       dispatch(changeSpecificOfferFavoriteStatus({id, status: false}));
     });
@@ -39,7 +39,7 @@ export const FavoritesList: FC<FavoritesListProps> = ({ offers }) => {
             </div>
             <div className="favorites__places">
               {filteredOffers.map((offer) => (
-                <Card key={offer.id} {...offer} prefix={'favorites'} onFavoriteClick={onFavoriteClick} />
+                <Card key={offer.id} {...offer} prefix={'favorites'} onFavoriteClick={handleFavoriteClick} />
               ))}
             </div>
           </li>
