@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FormEvent, useCallback, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useCallback, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/helpers';
 import { login } from '../../store/action';
 import { selectAuthorizationStatus } from '../../store/user/user.store';
@@ -37,14 +37,14 @@ export const LoginPage: FC = () => {
 
   const [params] = useSearchParams();
 
+  const randomCity = useMemo(() => CITIES_DATA[Math.floor(Math.random() * CITIES_DATA.length)], []);
+
   if (authStatus === AuthorizationStatus.LOGGINED) {
     const from = params.get('redirect') || ROUTE_PATHS.MAIN;
     return (
       <Navigate to={from} />
     );
   }
-
-  const randomCity = CITIES_DATA[Math.floor(Math.random() * CITIES_DATA.length)];
 
   return (
     <div className="page page--gray page--login">
