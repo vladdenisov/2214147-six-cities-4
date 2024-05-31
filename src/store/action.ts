@@ -20,13 +20,18 @@ export const checkAuth = createAsyncThunk<void, undefined, ThunkConfig>('auth/ch
   _,
   { extra, dispatch }
 ) => {
-  const response = await extra.get<User>('/login');
-  if (response.status === 401) {
+  try {
+    const response = await extra.get<User>('/login');
+    if (response.status === 401) {
+      dispatch(signOut());
+      dispatch(changeAuthorizationStatus(AuthorizationStatus.NO_AUTH));
+    } else {
+      dispatch(signIn(response.data));
+      dispatch(changeAuthorizationStatus(AuthorizationStatus.LOGGINED));
+    }
+  } catch (e) {
     dispatch(signOut());
     dispatch(changeAuthorizationStatus(AuthorizationStatus.NO_AUTH));
-  } else {
-    dispatch(signIn(response.data));
-    dispatch(changeAuthorizationStatus(AuthorizationStatus.LOGGINED));
   }
 });
 
