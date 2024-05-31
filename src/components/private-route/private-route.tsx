@@ -7,7 +7,7 @@ import { selectAuthorizationStatus } from '../../store/user/user.store';
 export const PrivateRoute: FC<PropsWithChildren> = ({ children }) => {
   const authStatus = useAppSelector(selectAuthorizationStatus);
 
-  if (authStatus !== AuthorizationStatus.LOGGINED) {
+  if (authStatus !== AuthorizationStatus.LOGGINED && authStatus !== AuthorizationStatus.LOADING) {
     return <Navigate to={ROUTE_PATHS.LOGIN} />;
   }
 
