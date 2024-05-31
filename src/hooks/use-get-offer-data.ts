@@ -25,7 +25,7 @@ export const useGetOfferData = ({id}: useGetOfferDataParams): useGetOfferDataRes
 
   useEffect(() => {
     if (reviewsRawData) {
-      setReviewsData(reviewsRawData.splice(0, 10).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+      setReviewsData(reviewsRawData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).splice(0, 10));
     }
   }, [reviewsRawData]);
 
@@ -36,7 +36,7 @@ export const useGetOfferData = ({id}: useGetOfferDataParams): useGetOfferDataRes
   }, [nearbyOffersRawData]);
 
   const addReview = (data: Review) => {
-    setReviewsData((prev) => [...prev, data]);
+    setReviewsData((prev) => [data, ...prev.splice(0,9)]);
   };
 
   const changeOfferIsFavorite = (nearbyOfferId: string, status: boolean) => {
